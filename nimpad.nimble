@@ -5,8 +5,10 @@ author        = "Albert"
 description   = "A simplistic Nim router"
 license       = "MIT"
 srcDir        = "src"
-bin           = @["nimpad"]
+binDir        = "output"
+bin           = @["nimpad", "test"]
 
 # Dependencies
 
 requires "nim >= 1.4.6"
+

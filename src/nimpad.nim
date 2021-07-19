@@ -1,35 +1,30 @@
 # Types
 type
-  Methods* = enum
+  Method* {.pure.} = enum
     GET, POST, OPTIONS
-
-type
+  Route* = object
+    `method`: Method
+    route: string
   Nimpad* = object
-    routes: seq[string]
+    routes: seq[Route]
 
 
 # Procs
-proc `$`(p: Nimpad): string =
-  result = $p.routes & " are the methods."
+# proc `$`(p: Nimpad): string =
+#   result = $p.routes & " are the routes."
 
-proc create*(s: var Nimpad, m: Methods, r: string): Nimpad {.discardable.} =
-  s.routes.add(r)
+proc init*(): Nimpad = 
+  Nimpad(routes: @[])
 
-proc get*(s: var Nimpad, r: string): Nimpad {.discardable.} =
+proc create(s: var Nimpad, m: Method, r: string): Nimpad {.discardable.} =
+  s.routes.add(Route(`method`: m, route: r))
+
+
+template get*(s: var Nimpad, r: string): Nimpad =
   s.create(GET, r)
 
-proc post*(s: var Nimpad, r: string): Nimpad {.discardable.} =
+template post*(s: var Nimpad, r: string): Nimpad =
   s.create(POST, r)
 
-
-# Vars
-var nimpad = Nimpad(routes: @[])
-
-
-# Experiments
-nimpad.get("oke")
-nimpad.get("something")
-nimpad.get("pizza")
-nimpad.post("pizza")
-
-echo nimpad
+template options*(s: var Nimpad, r: string): Nimpad =
+  s.create(OPTIONS, r)
