@@ -1,7 +1,15 @@
-import nimpad
+import nimpad, std/with
 
-var router: Nimpad = nimpad.init()
+var
+    router: Nimpad = nimpad.init()
 
-router.get("/test")
+with router:
+    get("/")
+    get("/test")
+    get("/pizza")
+    get("/hamburger")
 
-echo router
+var 
+    test = router.find("/pizza")
+
+echo test, router

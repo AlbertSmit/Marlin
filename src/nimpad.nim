@@ -10,8 +10,8 @@ type
 
 
 # Procs
-# proc `$`(p: Nimpad): string =
-#   result = $p.routes & " are the routes."
+proc `$`(p: Nimpad): string =
+  result = $p.routes & " are the routes."
 
 proc init*(): Nimpad = 
   Nimpad(routes: @[])
@@ -19,6 +19,8 @@ proc init*(): Nimpad =
 proc create(s: var Nimpad, m: Method, r: string): Nimpad {.discardable.} =
   s.routes.add(Route(`method`: m, route: r))
 
+proc `find`*(s: var Nimpad, path: string): Route {.discardable.} =
+  s.routes[s.routes.find(Route(route: path))]
 
 template get*(s: var Nimpad, r: string): Nimpad =
   s.create(GET, r)
