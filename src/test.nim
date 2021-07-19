@@ -1,15 +1,17 @@
-import nimpad, std/with
+import nimpad, std/with, sugar
 
-var
-    router: Nimpad = nimpad.init()
+
+var router: Nimpad = nimpad.init()
+
 
 with router:
-    get("/")
-    get("/test")
-    get("/pizza")
-    get("/hamburger")
+    get("/", () => "yo")
+    get("/test", () => "yo")
+    get("/pizza", () => "yo")
+    get("/hamburger", () => "yo")
 
-var 
-    test = router.find("/pizza")
 
-echo test, router
+var x = router.find(GET, "/pizza")
+
+
+echo x.handler()
