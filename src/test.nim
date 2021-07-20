@@ -5,13 +5,18 @@ var router: Nimpad = nimpad.init()
 
 
 with router:
-    get("/", () => "yo")
-    get("/test", () => "yo")
-    get("/pizza", () => "yo")
-    get("/hamburger", () => "yo")
+    get "/", () => "welcome!"
+    get "/test", () => "test."
+    get "/pizza", () => "pizza is ready!"
+    get "/hamburger", () => "who ordered a hamburger?"
+
+with router:
+    post "/", () => "mister postman."
 
 
-var x = router.find(GET, "/pizza")
+var 
+    x = router.find(GET, "/pizza")
+    y = router.find(POST, "/")
 
 
-echo x.handler()
+echo x.handler(), y.handler()
