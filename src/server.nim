@@ -10,6 +10,7 @@ proc main {.async.} =
         get "/", () => "welcome!"
         get "/test", () => "test."
         get "/pizza", () => "pizza is ready!"
+        get "/pizza/:type", () => "pizza is ready!"
         get "/hamburger", () => "who ordered a hamburger?"
 
     proc cb(req: Request) {.async.} =

@@ -6,9 +6,9 @@ description   = "A simplistic Nim router"
 license       = "MIT"
 srcDir        = "src"
 binDir        = "output"
-bin           = @["nimpad", "test", "server"]
+bin           = @["nimpad", "test", "server", "parse"]
 
 # Dependencies
 
-requires "nim >= 1.4.6"
+requires "nim >= 1.4.6", "regex"
 
