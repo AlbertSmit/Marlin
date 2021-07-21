@@ -1,4 +1,4 @@
-import sugar, sequtils
+import sugar, sequtils, regex, parse
 
 
 # Types
@@ -9,6 +9,7 @@ type
   Route* = tuple
     `method`: Method
     route: string
+    pattern: Regex
     handler: Handler
   Nimpad* = object
     routes: seq[Route]
@@ -18,20 +19,24 @@ type
 proc init*: Nimpad = 
   Nimpad(routes: @[])
   
-proc create(s: var Nimpad, m: Method, r: string, h: Handler): Nimpad {.discardable.} =
-  s.routes.add((m, r, h))
+proc create(s: var Nimpad, m: Method, r: string, p: Regex, h: Handler): Nimpad {.discardable.} =
+  s.routes.add((m, r, p, h))
 
 template get*(s: var Nimpad, r: string, h: Handler): Nimpad =
-  s.create(GET, r, h)
+  var p = parse(r)
+  s.create(GET, r, p.pattern, h)
 
 template post*(s: var Nimpad, r: string, h: Handler): Nimpad =
-  s.create(POST, r, h)
+  var p = parse(r)
+  s.create(POST, r, p.pattern, h)
 
 template options*(s: var Nimpad, r: string, h: Handler): Nimpad =
-  s.create(OPTIONS, r, h)
+  var p = parse(r)
+  s.create(OPTIONS, r, p.pattern, h)
 
 proc `find`*(s: var Nimpad, m: Method, path: string): Handler {.discardable.} =
-  try:
-    return s.routes[s.routes.map(i => i.route).find(path)].handler
-  except:
-    return () => "No route"
+  for i, route in s.routes[0 .. ^1]:
+    if path.match(route.pattern):
+      echo route
+
+  return s.routes[s.routes.map(i => i.route).find(path)].handler

@@ -2,34 +2,38 @@ import strutils, regex
 
 
 type 
-  RegexParams = tuple
+  RegexParams* = tuple
     keys: seq[string]
     pattern: Regex
 
 
 proc parse*(s: string): RegexParams =
   var 
-    chop: seq[string] = s.split("/")
+    chopped: seq[string] = s.split("/")
     keys: seq[string] = @[]
     pattern: string = ""
-    tmp: string = ""
-    c: char = '|'
+    current: char = '|'
+    temp: string = ""
 
-  while chop.len >= 0:
+  # TODO: Add &= operator macro/proc
+
+  while chopped.len >= 0:
     try:
-      chop.delete(0)
-      tmp = chop[0]
-      c = tmp[0]
+      chopped.delete(0)
+      temp = chopped[0]
+      current = temp[0]
 
-      if c == '*':
+      if current == '*':
         keys.add("wild")
-        pattern &= "/(.*)"
-      elif c == ':':
-        keys.add(tmp[1 .. ^1])
-        pattern &= "/([^/]+?)"
+        pattern = pattern & "/(.*)"
+      elif current == ':':
+        keys.add(temp[1 .. ^1])
+        pattern = pattern & "/([^/]+?)"
       else:
-        pattern &= "/" & tmp
+        pattern &= "/" & temp
     except:
       break
 
-  return (keys, re(pattern))
+  echo "^" & pattern & "/?$" & "i"
+
+  return (keys, re("^" & pattern & "/?$" & "i"))

@@ -19,4 +19,4 @@ var
     y = router.find(POST, "/")
 
 
-echo x.handler(), y.handler()
+echo x(), y()
