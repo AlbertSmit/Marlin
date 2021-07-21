@@ -34,6 +34,7 @@ proc parse*(s: string): RegexParams =
     except:
       break
 
-  echo "^" & pattern & "/?$" & "i"
+# ^\/hamburger\/([^\/]+?)\/?$
+  echo "/^" & pattern & "/?$" & "/i"
 
-  return (keys, re("^" & pattern & "/?$" & "i"))
+  return (keys, re("/^" & pattern & "/?$" & "/i"))

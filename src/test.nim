@@ -9,6 +9,7 @@ with router:
     get "/test", () => "test."
     get "/pizza", () => "pizza is ready!"
     get "/hamburger", () => "who ordered a hamburger?"
+    get "/pizza/:type/:toppings", () => "Neat."
 
 with router:
     post "/", () => "mister postman."
@@ -19,4 +20,4 @@ var
     y = router.find(POST, "/")
 
 
-echo x(), y()
+# echo x(), y()
