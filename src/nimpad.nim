@@ -30,9 +30,8 @@ template post*(s: var Nimpad, r: string, h: Handler): Nimpad =
 template options*(s: var Nimpad, r: string, h: Handler): Nimpad =
   s.create(OPTIONS, r, h)
 
-
-proc `find`*(s: var Nimpad, m: Method, path: string): Route {.discardable.} =
+proc `find`*(s: var Nimpad, m: Method, path: string): Handler {.discardable.} =
   try:
-    return s.routes[s.routes.map(i => i.route).find(path)]
-  except IndexDefect:
-    discard
+    return s.routes[s.routes.map(i => i.route).find(path)].handler
+  except:
+    return () => "No route"
