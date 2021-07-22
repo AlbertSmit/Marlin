@@ -39,11 +39,19 @@ proc `find`*(s: var Nimpad, m: Method, path: string): Route {.discardable, raise
 
   try:
     for i, e in s.routes[0 .. ^1]:
-      if path.match(e.pattern, rm) and e.`method` == m:
-        # Test -> Get keys from RegEx captures.
-        for i, match in rm.captures:
-          for i, val in match:
-            echo path[val]
+      if e.`method` == m:
+        if e.keys.len == 0:
+          discard path.match(e.pattern, rm)
+          echo "match ", e.route
+          # Test -> Get keys from RegEx captures.
+          for i, match in rm.captures:
+            for i, val in match:
+              echo "path val ", path[val]
+
+        if e.keys.len > 0:
+          var matches = path.findAll(e.pattern)
+          for i, key in e.keys:
+            echo "key: " & key & " + match: " & matches[0].group(i, path)[0]
 
         # Return default response
         return s.routes[i]
