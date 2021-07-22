@@ -35,7 +35,6 @@ proc `find`*(s: var Nimpad, m: Method, path: string): Route {.discardable, raise
   try:
     for i, e in s.routes[0 .. ^1]:
       if path.match(e.pattern) and e.`method` == m:
-        echo e.route
         return s.routes[i]
 
   except:

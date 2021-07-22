@@ -9,12 +9,14 @@ with router:
     get "/test", () => "test."
     get "/pizza", () => "pizza is ready!"
     get "/hamburger", () => "who ordered a hamburger?"
-    post "/root", () => "mister postman."
+    post "/root/:something/:else", () => "mister postman."
 
 
 var 
     x = router.find(GET, "/pizza")
-    y = router.find(POST, "/root")
+    y = router.find(POST, "/root/pizza/cookies")
+    z = router.find(GET, "/root")
 
 if x is Route: echo x.handler()
 if y is Route: echo y.handler()
+if z is Route: echo z.handler()

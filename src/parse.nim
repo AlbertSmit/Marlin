@@ -32,4 +32,4 @@ proc parse*(s: string): RegexParams =
     except:
       break
 
-  return (keys, re(pattern))
+  return (keys, re("^" & pattern & "/?$"))
