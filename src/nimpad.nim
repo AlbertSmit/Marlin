@@ -9,6 +9,7 @@ type
   Route* = tuple
     `method`: Method
     route: string
+    keys: seq[string]
     pattern: Regex
     handler: Handler
   Nimpad* = object
@@ -20,7 +21,8 @@ proc init*: Nimpad =
   Nimpad(routes: @[])
   
 proc create(s: var Nimpad, m: Method, r: string, h: Handler): Nimpad {.discardable.} =
-  s.routes.add((m, r, parse(r).pattern, h))
+  var (keys, pattern) = parse(r)
+  s.routes.add((m, r, keys, pattern, h))
 
 template get*(s: var Nimpad, r: string, h: Handler): Nimpad =
   s.create(GET, r, h)
@@ -32,9 +34,18 @@ template options*(s: var Nimpad, r: string, h: Handler): Nimpad =
   s.create(OPTIONS, r, h)
 
 proc `find`*(s: var Nimpad, m: Method, path: string): Route {.discardable, raises: [NotFound].} =
+  var 
+    rm: RegexMatch
+
   try:
     for i, e in s.routes[0 .. ^1]:
-      if path.match(e.pattern) and e.`method` == m:
+      if path.match(e.pattern, rm) and e.`method` == m:
+        # Test -> Get keys from RegEx captures.
+        for i, match in rm.captures:
+          for i, val in match:
+            echo path[val]
+
+        # Return default response
         return s.routes[i]
 
   except:

@@ -17,6 +17,6 @@ var
     y = router.find(POST, "/root/pizza/cookies")
     z = router.find(GET, "/root")
 
-if x is Route: echo x.handler()
-if y is Route: echo y.handler()
-if z is Route: echo z.handler()
+# if x is Route: echo x.handler()
+# if y is Route: echo y
+# if z is Route: echo z.handler()
