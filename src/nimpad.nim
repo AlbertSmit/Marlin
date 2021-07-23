@@ -5,8 +5,11 @@ import regex, parse, tables, sequtils, sugar
 type
   Method* = enum
     POST, GET, OPTIONS
-  Handler* = proc(): string{.noSideEffect, gcsafe, locks: 0.}
-  Params* = Table[string, string]
+  Handler* = proc(): string {.noSideEffect, gcsafe, locks: 0.}
+  KeyValue = tuple
+    key: string
+    value: string
+  Params* = seq[KeyValue]
   Response* = tuple
     params: Params
     handlers: seq[Handler]
@@ -19,6 +22,7 @@ type
   Nimpad* = object
     routes: seq[Route]
   NotFound* = object of ValueError
+
 
 # Procs & Templates
 proc init*: Nimpad = 
@@ -40,7 +44,7 @@ template options*(s: var Nimpad, r: string, h: Handler): Nimpad =
 proc `find`*(s: var Nimpad, m: Method, path: string): Response {.discardable, raises: [NotFound].} =
   var 
     rm: RegexMatch
-    params: Params = initTable[string, string]()
+    params: Params = @[]
     handlers: seq[Handler] = @[]
 
   try:
@@ -52,13 +56,13 @@ proc `find`*(s: var Nimpad, m: Method, path: string): Response {.discardable, ra
             continue
           if matches.any(m => m.namedGroups.len > 0):
             for i, match in matches:
-              params[$i] = $i
+              params.add((key: $i, value: $i))
 
         elif e.keys.len > 0:
-          if matches.len == 0: 
+          if matches.len == 0:
             continue
           for i, key in e.keys:
-            params[key] = matches[0].group(i, path)[0]
+            params.add((key: key, value: matches[0].group(i, path)[0]))
 
         elif path.match(e.pattern, rm):
           handlers.add(e.handler)

@@ -21,5 +21,8 @@ var
 
 # if a is Response: echo a
 # if x is Response: echo x
-if y is Response: echo y.params
+if y is Response:
+    echo y.params
+    # for val in y.params.pairs:
+        # echo val
 # if z is Response: echo z
