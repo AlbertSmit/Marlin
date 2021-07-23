@@ -1,4 +1,4 @@
-import regex, parse
+import regex, parse, tables, sequtils, sugar
 
 
 # Types
@@ -6,6 +6,10 @@ type
   Method* = enum
     POST, GET, OPTIONS
   Handler* = proc(): string{.noSideEffect, gcsafe, locks: 0.}
+  Params* = Table[string, string]
+  Response* = tuple
+    params: Params
+    handlers: seq[Handler]
   Route* = tuple
     `method`: Method
     route: string
@@ -33,31 +37,33 @@ template post*(s: var Nimpad, r: string, h: Handler): Nimpad =
 template options*(s: var Nimpad, r: string, h: Handler): Nimpad =
   s.create(OPTIONS, r, h)
 
-proc `find`*(s: var Nimpad, m: Method, path: string): Route {.discardable, raises: [NotFound].} =
+proc `find`*(s: var Nimpad, m: Method, path: string): Response {.discardable, raises: [NotFound].} =
   var 
     rm: RegexMatch
+    params: Params = initTable[string, string]()
+    handlers: seq[Handler] = @[]
 
   try:
     for i, e in s.routes[0 .. ^1]:
+      var matches = path.findAll(e.pattern)
       if e.`method` == m:
         if e.keys.len == 0:
-          discard path.match(e.pattern, rm)
-          echo "match ", e.route
-          # Test -> Get keys from RegEx captures.
-          for i, match in rm.captures:
-            for i, val in match:
-              echo "path val ", path[val]
+          if matches.len == 0: 
+            continue
+          if matches.any(m => m.namedGroups.len > 0):
+            for i, match in matches:
+              params[$i] = $i
 
         elif e.keys.len > 0:
-          var matches = path.findAll(e.pattern)
+          if matches.len == 0: 
+            continue
           for i, key in e.keys:
-            echo "key: " & key & " + match: " & matches[0].group(i, path)[0]
+            params[key] = matches[0].group(i, path)[0]
 
-        # elif:
-          # echo ""
+        elif path.match(e.pattern, rm):
+          handlers.add(e.handler)
 
-        # Return default response
-        return s.routes[i]
+    return (params, handlers)
 
   except:
     raise newException(NotFound, "Route not found")

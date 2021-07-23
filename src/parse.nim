@@ -26,7 +26,7 @@ proc parse*(s: string): RegexParams =
         pattern &= "/(.*)"
       elif current == ':':
         keys.add(temp[1 .. ^1])
-        pattern &= "/([^/]+?)"
+        pattern &= "/(?P<" & temp[1 .. ^1] & ">[^/]+?)"
       else:
         pattern &= "/" & temp
     except:
