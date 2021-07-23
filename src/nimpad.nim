@@ -48,10 +48,13 @@ proc `find`*(s: var Nimpad, m: Method, path: string): Route {.discardable, raise
             for i, val in match:
               echo "path val ", path[val]
 
-        if e.keys.len > 0:
+        elif e.keys.len > 0:
           var matches = path.findAll(e.pattern)
           for i, key in e.keys:
             echo "key: " & key & " + match: " & matches[0].group(i, path)[0]
+
+        # elif:
+          # echo ""
 
         # Return default response
         return s.routes[i]
