@@ -10,7 +10,7 @@ type
   Method* = enum
     ALL = "", GET, HEAD, PATCH, OPTIONS, CONNECT, DELETE, TRACE, POST, PUT
   Handler* = proc(): string {.noSideEffect, gcsafe, locks: 0.}
-  Response* = object
+  NimpadResponse* = tuple
     params: JsonNode
     handlers: seq[Handler]
   Route* = tuple
@@ -48,7 +48,7 @@ template trace*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(TRACE, r, 
 template post*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(POST, r, h)
 template put*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(PUT, r, h)
 
-proc `find`*(s: var Nimpad, m: Method, path: string): Response {.discardable, raises: [NotFound].} =
+proc `find`*(s: var Nimpad, m: Method, path: string): NimpadResponse {.discardable, raises: [NotFound].} =
   var 
     isHead: bool = m == HEAD
     handlers: seq[Handler] = @[]
@@ -63,20 +63,21 @@ proc `find`*(s: var Nimpad, m: Method, path: string): Response {.discardable, ra
           if matches.len == 0: 
             continue
           if matches.any(m => m.namedGroups.len > 0):
-            echo "we got one!"
             for i, match in matches:
               params.insert($i, i)
+              handlers.add(e.handler)
 
         elif e.keys.len > 0:
           if matches.len == 0:
             continue
           for i, key in e.keys:
             params.insert(key, matches[0].group(i, path)[0])
+            handlers.add(e.handler)
 
         elif path.match(e.pattern, rm):
           handlers.add(e.handler)
 
-    return Response(params: params, handlers: handlers)
+    return (params, handlers)
 
   except:
     raise newException(NotFound, "Route not found")

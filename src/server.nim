@@ -1,4 +1,4 @@
-import asynchttpserver, asyncdispatch, sugar, nimpad, std/with
+import asynchttpserver, asyncdispatch, sugar, nimpad, std/with, json
 
 
 proc main {.async.} =
@@ -14,9 +14,9 @@ proc main {.async.} =
         get "/hamburger", () => "who ordered a hamburger?"
 
     proc cb(req: Request) {.async.} =
-        var r = router.find(GET, req.url.path)
+        var (params, handlers) = router.find(GET, req.url.path)
         let headers = {"Content-type": "text/plain; charset=utf-8"}
-        await req.respond(Http200, r.handler(), headers.newHttpHeaders())
+        await req.respond(Http200, $(params), headers.newHttpHeaders())
     
     server.listen Port(8080)
     while true:
