@@ -1,4 +1,6 @@
-import regex, parse, tables, sequtils, sugar, json
+import regex, tables, sequtils, sugar, json
+import parse, utils
+
 
 {.experimental: "dotOperators".}
 
@@ -6,7 +8,7 @@ import regex, parse, tables, sequtils, sugar, json
 # Types
 type
   Method* = enum
-    POST, GET, OPTIONS
+    ALL = "", GET, HEAD, PATCH, OPTIONS, CONNECT, DELETE, TRACE, POST, PUT
   Handler* = proc(): string {.noSideEffect, gcsafe, locks: 0.}
   Response* = object
     params: JsonNode
@@ -22,45 +24,46 @@ type
   NotFound* = object of ValueError
 
 
-# Utils
-template `.`(jsn: JsonNode, field: untyped): untyped =
-  jsn[astToStr(field)]
-
-template insert(jsn: JsonNode, field, value: untyped): untyped =
-  jsn[field] = %value
-
-
 # Procs & Templates
 proc init*: Nimpad = 
   Nimpad(routes: @[])
-  
-proc create(s: var Nimpad, m: Method, r: string, h: Handler): Nimpad {.discardable.} =
+
+proc `add`*(s: var Nimpad, m: Method, r: string, h: Handler): Nimpad {.discardable.} =
   var (keys, pattern) = parse(r)
   s.routes.add((m, r, keys, pattern, h))
 
-template get*(s: var Nimpad, r: string, h: Handler): Nimpad =
-  s.create(GET, r, h)
+proc `use`*(s: var Nimpad, r: string, h: Handler): Nimpad {.discardable.} =
+  var (keys, pattern) = parse(r)
+  s.routes.add((ALL, r, keys, pattern, h))
 
-template post*(s: var Nimpad, r: string, h: Handler): Nimpad =
-  s.create(POST, r, h)
-
-template options*(s: var Nimpad, r: string, h: Handler): Nimpad =
-  s.create(OPTIONS, r, h)
+# All the HTTP methods go in here.
+template all*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(ALL, r, h)
+template get*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(GET, r, h)
+template head*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(HEAD, r, h)
+template patch*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(PATCH, r, h)
+template options*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(OPTIONS, r, h)
+template connect*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(CONNECT, r, h)
+template delete*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(DELETE, r, h)
+template trace*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(TRACE, r, h)
+template post*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(POST, r, h)
+template put*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(PUT, r, h)
 
 proc `find`*(s: var Nimpad, m: Method, path: string): Response {.discardable, raises: [NotFound].} =
   var 
-    rm: RegexMatch
-    params: JsonNode = %*{}
+    isHead: bool = m == HEAD
     handlers: seq[Handler] = @[]
+    params: JsonNode = %*{}
+    rm: RegexMatch
 
   try:
     for i, e in s.routes[0 .. ^1]:
       var matches = path.findAll(e.pattern)
-      if e.`method` == m:
+      if e.`method` == ALL or e.`method` == m or isHead and e.`method` == GET:
         if e.keys.len == 0:
           if matches.len == 0: 
             continue
           if matches.any(m => m.namedGroups.len > 0):
+            echo "we got one!"
             for i, match in matches:
               params.insert($i, i)
 
@@ -72,8 +75,6 @@ proc `find`*(s: var Nimpad, m: Method, path: string): Response {.discardable, ra
 
         elif path.match(e.pattern, rm):
           handlers.add(e.handler)
-
-    echo params
 
     return Response(params: params, handlers: handlers)
 
