@@ -9,8 +9,9 @@ import parse, utils
 type
   Method* = enum
     ALL = "", GET, HEAD, PATCH, OPTIONS, CONNECT, DELETE, TRACE, POST, PUT
-  Handler* = proc(): string {.noSideEffect, gcsafe, locks: 0.}
-  NimpadResponse* = tuple
+  Handler* = 
+    proc(): string {.noSideEffect, gcsafe, locks: 0.}
+  Response* = tuple
     params: JsonNode
     handlers: seq[Handler]
   Route* = tuple
@@ -19,9 +20,8 @@ type
     keys: seq[string]
     pattern: Regex
     handler: Handler
-  Nimpad* = object
+  Nimpad* = object 
     routes: seq[Route]
-  NotFound* = object of ValueError
 
 
 # Procs & Templates
@@ -48,15 +48,15 @@ template trace*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(TRACE, r, 
 template post*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(POST, r, h)
 template put*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(PUT, r, h)
 
-proc `find`*(s: var Nimpad, m: Method, path: string): NimpadResponse {.discardable, raises: [NotFound].} =
+proc `find`*(s: var Nimpad, m: Method, path: string): Response {.discardable.} =
   var 
     isHead: bool = m == HEAD
     handlers: seq[Handler] = @[]
     params: JsonNode = %*{}
     rm: RegexMatch
 
-  try:
-    for i, e in s.routes[0 .. ^1]:
+  for i, e in s.routes[0 .. ^1]:
+    try:
       var matches = path.findAll(e.pattern)
       if e.`method` == ALL or e.`method` == m or isHead and e.`method` == GET:
         if e.keys.len == 0:
@@ -77,7 +77,8 @@ proc `find`*(s: var Nimpad, m: Method, path: string): NimpadResponse {.discardab
         elif path.match(e.pattern, rm):
           handlers.add(e.handler)
 
-    return (params, handlers)
+    except:
+      break
 
-  except:
-    raise newException(NotFound, "Route not found")
+  return (params, handlers)
+

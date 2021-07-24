@@ -7,7 +7,7 @@ type
     pattern: Regex
 
 
-proc parse*(s: string): RegexParams =
+proc parse*(s: string, loose: bool = false): RegexParams =
   var 
     chopped: seq[string] = s.split("/")
     keys: seq[string] = @[]

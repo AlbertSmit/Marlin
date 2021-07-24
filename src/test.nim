@@ -21,6 +21,7 @@ var
     a = router.find(GET, "/")
     b = router.find(GET, "/users/123/books/bible")
     c = router.find(GET, "/root/:fake")
+    d = router.find(GET, "/test/999/whut/poop")
     x = router.find(GET, "/pizza")
     y = router.find(POST, "/root/pizza/cookies")
     z = router.find(GET, "/root")
