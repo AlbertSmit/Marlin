@@ -6,9 +6,9 @@ proc onError(err: int = 404, req: Request, res: Response) {.async.} =
 proc listen() {.async.} =
     var 
         server = newAsyncHttpServer()
-        router = marlin.init()
+        router: Marlin = marlin.router
 
-    with router:
+    with marlin.router:
         get "/", () => "Yo!"
         get "/test", () => "test!"
 

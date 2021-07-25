@@ -1,31 +1,22 @@
 import marlin, std/with, sugar
 
 
-var router: Marlin = marlin.init()
-
-
-with router:
+with marlin.router:
     get "/", () => "root levels."
     get "/root", () => "welcome!"
-    get "/test", () => "test."
     get "/pizza", () => "pizza is ready!"
     get "/hamburger", () => "who ordered a hamburger?"
-    post "/root/:something/:else", () => "mister postman."
-    use "/root", () => "bruh"
-    get "/users/:what/books/:bro?", () => "bruh"
-    get "/test/:something/whut/:else", () => "mister postman."
-    get "/test/*", () => "wildcarded"
+    post "/songs/:artist/:album", () => "mister postman."
+    get "/songs/:artist/reviews/:song?", () => "bruh"
+    get "/test/*", () => "wildcard"
 
 
 var 
     a = router.find(GET, "/")
-    b = router.find(GET, "/users/123/books/bible")
-    c = router.find(GET, "/root/:fake")
-    d = router.find(GET, "/users/999/whut/poop")
-    x = router.find(GET, "/pizza")
-    y = router.find(POST, "/root/pizza/cookies")
-    z = router.find(GET, "/root")
+    b = router.find(GET, "/songs/kanye/reviews/power")
+    c = router.find(POST, "/songs/kanye/yeezus")
+
 
 if a is Response: echo a
 if b is Response: echo b
-if y is Response: echo y
+if c is Response: echo c

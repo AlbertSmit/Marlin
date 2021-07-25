@@ -2,9 +2,6 @@ import regex, tables, sequtils, sugar, json
 import utils, regex/parser
 
 
-{.experimental: "dotOperators".}
-
-
 # Types
 type
   Method* = enum
@@ -82,3 +79,4 @@ proc `find`*(s: var Marlin, m: Method, path: string): Response {.discardable.} =
 
   return (params, handlers)
 
+var router* = init()
