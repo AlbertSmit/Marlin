@@ -1,4 +1,5 @@
-![Language: Nim](https://img.shields.io/badge/language-Nim-yellow)
+<!-- ![Language: Nim](https://img.shields.io/badge/language-Nim-yellow) -->
+![Language: Nim](https://img.shields.io/github/languages/top/albertsmit/marlin)
 ![License: MIT](https://img.shields.io/github/license/albertsmit/marlin)
 [![Version](https://img.shields.io/github/v/release/albertsmit/marlin?include_prereleases)](https://github.com/albertsmit/marlin/releases)
 
