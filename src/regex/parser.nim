@@ -14,6 +14,7 @@ proc parse*(s: string, loose: bool = false): RegexParams =
     pattern: string = ""
     current: char = '|'
     temp: string = ""
+    rex: string = ""
 
   while chopped.len >= 0:
     try:
@@ -25,8 +26,19 @@ proc parse*(s: string, loose: bool = false): RegexParams =
         keys.add("wild")
         pattern &= "/(.*)"
       elif current == ':':
-        keys.add(temp[1 .. ^1])
-        pattern &= "/(?P<" & temp[1 .. ^1] & ">[^/]+?)"
+        var 
+          optional = temp.find('?', 1)
+          # extension = temp.find('.', 1)
+
+        if optional != -1:
+          # Found an optional flag
+          rex = temp[1 .. (optional - 1)]
+          pattern &= "(?:/(?P<" & rex & ">[^/]+?))?"
+        else:
+          rex = temp[1 .. ^1]
+          pattern &= "/(?P<" & rex & ">[^/]+?)"
+
+        keys.add(rex)
       else:
         pattern &= "/" & temp
     except:

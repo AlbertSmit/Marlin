@@ -12,8 +12,8 @@ with router:
     get "/hamburger", () => "who ordered a hamburger?"
     post "/root/:something/:else", () => "mister postman."
     use "/root", () => "bruh"
-    get "/users/:id/books/:title", () => "bruh"
-    get "/root/:something/:else", () => "mister postman."
+    get "/users/:what/books/:bro?", () => "bruh"
+    get "/test/:something/whut/:else", () => "mister postman."
     get "/test/*", () => "wildcarded"
 
 
@@ -21,7 +21,7 @@ var
     a = router.find(GET, "/")
     b = router.find(GET, "/users/123/books/bible")
     c = router.find(GET, "/root/:fake")
-    d = router.find(GET, "/test/999/whut/poop")
+    d = router.find(GET, "/users/999/whut/poop")
     x = router.find(GET, "/pizza")
     y = router.find(POST, "/root/pizza/cookies")
     z = router.find(GET, "/root")
