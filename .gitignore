@@ -2,3 +2,5 @@ nimcache/
 nimblecache/
 htmldocs/
 output/
+
+.DS_Store
