@@ -1,4 +1,4 @@
-import asynchttpserver, asyncdispatch, nimpad, json, std/with, sugar
+import asynchttpserver, asyncdispatch, nish, json, std/with, sugar
 
 proc onError(err: int = 404, req: Request, res: Response) {.async.} =
     await req.respond(Http404, "Page not found")
@@ -6,7 +6,7 @@ proc onError(err: int = 404, req: Request, res: Response) {.async.} =
 proc listen() {.async.} =
     var 
         server = newAsyncHttpServer()
-        router = nimpad.init()
+        router = nish.init()
 
     with router:
         get "/", () => "Yo!"

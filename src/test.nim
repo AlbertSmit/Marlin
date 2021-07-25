@@ -1,7 +1,7 @@
-import nimpad, std/with, sugar
+import nish, std/with, sugar
 
 
-var router: Nimpad = nimpad.init()
+var router: Nish = nish.init()
 
 
 with router:

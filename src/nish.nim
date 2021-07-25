@@ -20,35 +20,35 @@ type
     keys: seq[string]
     pattern: Regex
     handler: Handler
-  Nimpad* = object 
+  Nish* = object 
     routes: seq[Route]
 
 
 # Procs & Templates
-proc init*: Nimpad = 
-  Nimpad(routes: @[])
+proc init*: Nish = 
+  Nish(routes: @[])
 
-proc `add`*(s: var Nimpad, m: Method, r: string, h: Handler): Nimpad {.discardable.} =
+proc `add`*(s: var Nish, m: Method, r: string, h: Handler): Nish {.discardable.} =
   var (keys, pattern) = parse(r)
   s.routes.add((m, r, keys, pattern, h))
 
-proc `use`*(s: var Nimpad, r: string, h: Handler): Nimpad {.discardable.} =
+proc `use`*(s: var Nish, r: string, h: Handler): Nish {.discardable.} =
   var (keys, pattern) = parse(r)
   s.routes.add((ALL, r, keys, pattern, h))
 
 # All the HTTP methods go in here.
-template all*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(ALL, r, h)
-template get*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(GET, r, h)
-template head*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(HEAD, r, h)
-template patch*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(PATCH, r, h)
-template options*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(OPTIONS, r, h)
-template connect*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(CONNECT, r, h)
-template delete*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(DELETE, r, h)
-template trace*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(TRACE, r, h)
-template post*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(POST, r, h)
-template put*(s: var Nimpad, r: string, h: Handler): Nimpad = s.add(PUT, r, h)
+template all*(s: var Nish, r: string, h: Handler): Nish = s.add(ALL, r, h)
+template get*(s: var Nish, r: string, h: Handler): Nish = s.add(GET, r, h)
+template head*(s: var Nish, r: string, h: Handler): Nish = s.add(HEAD, r, h)
+template patch*(s: var Nish, r: string, h: Handler): Nish = s.add(PATCH, r, h)
+template options*(s: var Nish, r: string, h: Handler): Nish = s.add(OPTIONS, r, h)
+template connect*(s: var Nish, r: string, h: Handler): Nish = s.add(CONNECT, r, h)
+template delete*(s: var Nish, r: string, h: Handler): Nish = s.add(DELETE, r, h)
+template trace*(s: var Nish, r: string, h: Handler): Nish = s.add(TRACE, r, h)
+template post*(s: var Nish, r: string, h: Handler): Nish = s.add(POST, r, h)
+template put*(s: var Nish, r: string, h: Handler): Nish = s.add(PUT, r, h)
 
-proc `find`*(s: var Nimpad, m: Method, path: string): Response {.discardable.} =
+proc `find`*(s: var Nish, m: Method, path: string): Response {.discardable.} =
   var 
     isHead: bool = m == HEAD
     handlers: seq[Handler] = @[]
