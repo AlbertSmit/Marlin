@@ -25,26 +25,31 @@ proc parse*(s: string, loose: bool = false): RegexParams =
       if current == '*':
         keys.add("wild")
         pattern &= "/(.*)"
+
       elif current == ':':
         var 
-          optional = temp.find('?', 1)
-          extension = temp.find('.', 1)
+          optionalIndex = temp.find('?', 1)
+          extensionIndex = temp.find('.', 1)
+          hasOptional = optionalIndex != -1
+          hasExtension = extensionIndex != -1
 
-        if optional != -1:
-          # Found an optional flag
-          name = temp[1 .. (optional - 1)]
+        if hasOptional:
+          name = temp[1 .. (optionalIndex - 1)]
           pattern &= "(?:/(?P<" & name & ">[^/]+?))?"
-          if extension != -1:
-            # Add when extension has been found
-            name = temp[1 .. (extension - 1)]
-            pattern &= (if optional != -1: "?\\" else: "\\") & temp[1 .. extension - 1]
+
+          if hasExtension:
+            name = temp[1 .. (extensionIndex - 1)]
+            pattern &= (if hasOptional: "?\\" else: "\\") & temp[1 .. extensionIndex - 1]
+
         else:
           name = temp[1 .. ^1]
           pattern &= "/(?P<" & name & ">[^/]+?)"
 
         keys.add(name)
+
       else:
         pattern &= "/" & temp
+
     except:
       break
 
