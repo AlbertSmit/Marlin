@@ -24,8 +24,18 @@ Writing this port to understand the inner workings, get better at writing librar
 
 <sub><sup>_Work in progress._</sub></sup>
 
----
 
-### Subpackages
+## Usage
+```nim
+import marlin, std/with, sugar
+
+with marlin.router:
+  get "/pizza", () => "pizza is ready!"
+  get "/hamburger", () => "who ordered a hamburger?"
+  get "/songs/:artist/reviews/:song?", () => "bruh"
+  post "/songs/:artist/:album", () => "mister postman."
+```
+
+## Submodules
 
 -  `src/regex`   →   Nim port of [Lukeed](https://github.com/lukeed)'s `RegexParams`.
