@@ -1,15 +1,15 @@
 # Nim generated files #
-######################
+#######################
 nimcache/
 nimblecache/
 htmldocs/
 
-# Project output / develop #
-######################
+# Project output      #
+#######################
 output/
 
-# OS generated files #
-######################
+# OS generated files  #
+#######################
 .DS_Store?
 ehthumbs.db
 Icon?
