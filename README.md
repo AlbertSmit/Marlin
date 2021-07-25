@@ -1,7 +1,8 @@
 <!-- ![Language: Nim](https://img.shields.io/badge/language-Nim-yellow) -->
-![Language: Nim](https://img.shields.io/github/languages/top/AlbertSmit/Marlin)
+![Language: Nim](https://img.shields.io/static/v1?label=written%20with%20love,%20in&message=Nim&color=yellow)
 ![License: MIT](https://img.shields.io/github/license/AlbertSmit/Marlin)
 [![Version](https://img.shields.io/github/v/release/AlbertSmit/Marlin?include_prereleases)](https://github.com/AlbertSmit/Marlin/releases)
+
 
 # Marlin 🦈
 
