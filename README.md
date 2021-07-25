@@ -1,5 +1,7 @@
-<s>Fish</s>  **_Nish_** 🍤
+Marlin 🦈
 ---
+
+> Marlins are among the fastest marine swimmers
 
 Nim port of [Lukeed](https://github.com/lukeed)'s [Trouter 🐟](https://github.com/lukeed/regexparam).
 
