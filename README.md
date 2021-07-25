@@ -18,6 +18,8 @@
 
 **A [Nim](https://github.com/nim-lang/Nim) port of [Lukeed](https://github.com/lukeed)'s [Trouter 🐟](https://github.com/lukeed/regexparam).**
 
+> Long story short; it's a _router_.
+
 Writing this port to understand the inner workings, get better at writing libraries, and having a shiny new router to work with in Nim.
 
 <sub><sup>_Work in progress._</sub></sup>
