@@ -1,7 +1,8 @@
 <!-- ![Language: Nim](https://img.shields.io/badge/language-Nim-yellow) -->
-![Language: Nim](https://img.shields.io/github/languages/top/albertsmit/marlin)
-![License: MIT](https://img.shields.io/github/license/albertsmit/marlin)
-[![Version](https://img.shields.io/github/v/release/albertsmit/marlin?include_prereleases)](https://github.com/albertsmit/marlin/releases)
+![Language: Nim](https://img.shields.io/static/v1?label=written%20with%20love,%20in&message=Nim&color=yellow)
+![License: MIT](https://img.shields.io/github/license/AlbertSmit/Marlin)
+[![Version](https://img.shields.io/github/v/release/AlbertSmit/Marlin?include_prereleases)](https://github.com/AlbertSmit/Marlin/releases)
+
 
 # Marlin 🦈
 
@@ -16,6 +17,8 @@
 
 
 **A [Nim](https://github.com/nim-lang/Nim) port of [Lukeed](https://github.com/lukeed)'s [Trouter 🐟](https://github.com/lukeed/regexparam).**
+
+> Long story short; it's a _router_.
 
 Writing this port to understand the inner workings, get better at writing libraries, and having a shiny new router to work with in Nim.
 
