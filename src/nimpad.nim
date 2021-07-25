@@ -1,5 +1,5 @@
 import regex, tables, sequtils, sugar, json
-import parse, utils
+import utils, regex/parser
 
 
 {.experimental: "dotOperators".}

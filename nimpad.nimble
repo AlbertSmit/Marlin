@@ -6,7 +6,7 @@ description   = "A simplistic Nim router"
 license       = "MIT"
 srcDir        = "src"
 binDir        = "output"
-bin           = @["nimpad", "test", "server", "parse"]
+bin           = @["nimpad", "test", "server", "regex/parser"]
 
 # Dependencies
 
