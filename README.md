@@ -1,7 +1,7 @@
 <!-- ![Language: Nim](https://img.shields.io/badge/language-Nim-yellow) -->
-![Language: Nim](https://img.shields.io/github/languages/top/albertsmit/marlin)
-![License: MIT](https://img.shields.io/github/license/albertsmit/marlin)
-[![Version](https://img.shields.io/github/v/release/albertsmit/marlin?include_prereleases)](https://github.com/albertsmit/marlin/releases)
+![Language: Nim](https://img.shields.io/github/languages/top/AlbertSmit/Marlin)
+![License: MIT](https://img.shields.io/github/license/AlbertSmit/Marlin)
+[![Version](https://img.shields.io/github/v/release/AlbertSmit/Marlin?include_prereleases)](https://github.com/AlbertSmit/Marlin/releases)
 
 # Marlin 🦈
 
