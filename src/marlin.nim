@@ -1,4 +1,4 @@
-import regex, tables, sequtils, sugar, json
+import regex, tables, sequtils, sugar, json, macros
 import utils, regex/parser
 
 
@@ -29,6 +29,7 @@ proc `add`*(s: var Marlin, m: Method, r: string, h: Handler): Marlin {.discardab
   var (keys, pattern) = parse(r)
   s.routes.add((m, r, keys, pattern, h))
 
+# TODO: Handlers should be a sequence here.
 proc `use`*(s: var Marlin, r: string, h: Handler): Marlin {.discardable.} =
   var (keys, pattern) = parse(r)
   s.routes.add((ALL, r, keys, pattern, h))
@@ -45,6 +46,7 @@ template trace*(s: var Marlin, r: string, h: Handler): Marlin = s.add(TRACE, r, 
 template post*(s: var Marlin, r: string, h: Handler): Marlin = s.add(POST, r, h)
 template put*(s: var Marlin, r: string, h: Handler): Marlin = s.add(PUT, r, h)
 
+
 proc `find`*(s: var Marlin, m: Method, path: string): Response {.discardable.} =
   var 
     isHead: bool = m == HEAD
@@ -59,6 +61,7 @@ proc `find`*(s: var Marlin, m: Method, path: string): Response {.discardable.} =
         if e.keys.len == 0:
           if matches.len == 0: 
             continue
+          # TODO: Finish this block's logic.
           if matches.any(m => m.namedGroups.len > 0):
             for i, match in matches:
               params.insert($i, i)
@@ -68,6 +71,7 @@ proc `find`*(s: var Marlin, m: Method, path: string): Response {.discardable.} =
           if matches.len == 0:
             continue
           for i, key in e.keys:
+            # TODO: This syntax could be heaps prettier/readable.
             params.insert(key, matches[0].group(i, path)[0])
             handlers.add(e.handler)
 

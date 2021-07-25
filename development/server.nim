@@ -1,4 +1,4 @@
-import asynchttpserver, asyncdispatch, marlin, json, std/with, sugar
+import asynchttpserver, asyncdispatch, ../src/marlin, json, std/with, sugar
 
 proc onError(err: int = 404, req: Request, res: Response) {.async.} =
     await req.respond(Http404, "Page not found")

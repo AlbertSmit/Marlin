@@ -1,4 +1,4 @@
-import marlin, std/with, sugar
+import ../src/marlin, std/with, sugar
 
 
 with marlin.router:
