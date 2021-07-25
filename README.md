@@ -1,11 +1,11 @@
 Marlin 🦈
 ---
 
-> Marlins are among the fastest marine swimmers <sup >[ 1 ]</sup>
+> Marlins are among the fastest marine swimmers <sup >[` 1 `](#footnote)</sup>
 
 Nim port of [Lukeed](https://github.com/lukeed)'s [Trouter 🐟](https://github.com/lukeed/regexparam).
 
-<sub><sup> [ 1 ] Source: [Wikipedia](https://en.wikipedia.org/wiki/Marlin) </sup></sub>
+<sub id="footnote"><sup> [ 1 ] Source: [Wikipedia](https://en.wikipedia.org/wiki/Marlin) </sup></sub>
 
 
 ---
