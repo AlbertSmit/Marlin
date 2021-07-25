@@ -1,7 +1,4 @@
-## Nimpad.
+## Nimpad
+---
 
-A router based on Trouter.
-
-## Great sources
-
-- https://benhoyt.com/writings/go-routing/#regex-switch
+Nim port of [Lukeed](https://github.com/lukeed)'s [Trouter 🐟](https://github.com/lukeed/regexparam).
