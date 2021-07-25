@@ -20,35 +20,35 @@ type
     keys: seq[string]
     pattern: Regex
     handler: Handler
-  Nish* = object 
+  Marlin* = object 
     routes: seq[Route]
 
 
 # Procs & Templates
-proc init*: Nish = 
-  Nish(routes: @[])
+proc init*: Marlin = 
+  Marlin(routes: @[])
 
-proc `add`*(s: var Nish, m: Method, r: string, h: Handler): Nish {.discardable.} =
+proc `add`*(s: var Marlin, m: Method, r: string, h: Handler): Marlin {.discardable.} =
   var (keys, pattern) = parse(r)
   s.routes.add((m, r, keys, pattern, h))
 
-proc `use`*(s: var Nish, r: string, h: Handler): Nish {.discardable.} =
+proc `use`*(s: var Marlin, r: string, h: Handler): Marlin {.discardable.} =
   var (keys, pattern) = parse(r)
   s.routes.add((ALL, r, keys, pattern, h))
 
 # All the HTTP methods go in here.
-template all*(s: var Nish, r: string, h: Handler): Nish = s.add(ALL, r, h)
-template get*(s: var Nish, r: string, h: Handler): Nish = s.add(GET, r, h)
-template head*(s: var Nish, r: string, h: Handler): Nish = s.add(HEAD, r, h)
-template patch*(s: var Nish, r: string, h: Handler): Nish = s.add(PATCH, r, h)
-template options*(s: var Nish, r: string, h: Handler): Nish = s.add(OPTIONS, r, h)
-template connect*(s: var Nish, r: string, h: Handler): Nish = s.add(CONNECT, r, h)
-template delete*(s: var Nish, r: string, h: Handler): Nish = s.add(DELETE, r, h)
-template trace*(s: var Nish, r: string, h: Handler): Nish = s.add(TRACE, r, h)
-template post*(s: var Nish, r: string, h: Handler): Nish = s.add(POST, r, h)
-template put*(s: var Nish, r: string, h: Handler): Nish = s.add(PUT, r, h)
+template all*(s: var Marlin, r: string, h: Handler): Marlin = s.add(ALL, r, h)
+template get*(s: var Marlin, r: string, h: Handler): Marlin = s.add(GET, r, h)
+template head*(s: var Marlin, r: string, h: Handler): Marlin = s.add(HEAD, r, h)
+template patch*(s: var Marlin, r: string, h: Handler): Marlin = s.add(PATCH, r, h)
+template options*(s: var Marlin, r: string, h: Handler): Marlin = s.add(OPTIONS, r, h)
+template connect*(s: var Marlin, r: string, h: Handler): Marlin = s.add(CONNECT, r, h)
+template delete*(s: var Marlin, r: string, h: Handler): Marlin = s.add(DELETE, r, h)
+template trace*(s: var Marlin, r: string, h: Handler): Marlin = s.add(TRACE, r, h)
+template post*(s: var Marlin, r: string, h: Handler): Marlin = s.add(POST, r, h)
+template put*(s: var Marlin, r: string, h: Handler): Marlin = s.add(PUT, r, h)
 
-proc `find`*(s: var Nish, m: Method, path: string): Response {.discardable.} =
+proc `find`*(s: var Marlin, m: Method, path: string): Response {.discardable.} =
   var 
     isHead: bool = m == HEAD
     handlers: seq[Handler] = @[]

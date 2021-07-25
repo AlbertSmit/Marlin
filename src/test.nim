@@ -1,7 +1,7 @@
-import nish, std/with, sugar
+import marlin, std/with, sugar
 
 
-var router: Nish = nish.init()
+var router: Marlin = marlin.init()
 
 
 with router:
