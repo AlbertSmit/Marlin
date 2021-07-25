@@ -14,7 +14,7 @@ proc parse*(s: string, loose: bool = false): RegexParams =
     pattern: string = ""
     current: char = '|'
     temp: string = ""
-    rex: string = ""
+    name: string = ""
 
   while chopped.len >= 0:
     try:
@@ -28,17 +28,21 @@ proc parse*(s: string, loose: bool = false): RegexParams =
       elif current == ':':
         var 
           optional = temp.find('?', 1)
-          # extension = temp.find('.', 1)
+          extension = temp.find('.', 1)
 
         if optional != -1:
           # Found an optional flag
-          rex = temp[1 .. (optional - 1)]
-          pattern &= "(?:/(?P<" & rex & ">[^/]+?))?"
+          name = temp[1 .. (optional - 1)]
+          pattern &= "(?:/(?P<" & name & ">[^/]+?))?"
+          if extension != -1:
+            # Add when extension has been found
+            name = temp[1 .. (extension - 1)]
+            pattern &= (if optional != -1: "?\\" else: "\\") & temp[1 .. extension - 1]
         else:
-          rex = temp[1 .. ^1]
-          pattern &= "/(?P<" & rex & ">[^/]+?)"
+          name = temp[1 .. ^1]
+          pattern &= "/(?P<" & name & ">[^/]+?)"
 
-        keys.add(rex)
+        keys.add(name)
       else:
         pattern &= "/" & temp
     except:
