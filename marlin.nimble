@@ -5,7 +5,7 @@ author        = "Albert"
 description   = "A simplistic Nim router"
 license       = "MIT"
 binDir        = "output"
-bin           = @["src/marlin", "development/test", "development/server", "regex/parser"]
+bin           = @["src/marlin", "development/test", "development/server", "src/regex/parser"]
 
 # Dependencies
 

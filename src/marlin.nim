@@ -83,4 +83,5 @@ proc `find`*(s: var Marlin, m: Method, path: string): Response {.discardable.} =
 
   return (params, handlers)
 
+# Initialise self
 var router* = init()

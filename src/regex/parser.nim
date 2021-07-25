@@ -1,13 +1,16 @@
-import strutils, regex
+## This module is a Nim port of Lukeed's RegexParams.
+## The name is pretty implicit of what it does. ;-)
 
+import strutils, regex
 
 type 
   RegexParams* = tuple
     keys: seq[string]
     pattern: Regex
 
-
 proc parse*(s: string, loose: bool = false): RegexParams =
+  ## Parse a string, return RegEx
+  
   var 
     chopped: seq[string] = s.split("/")
     keys: seq[string] = @[]
@@ -53,4 +56,4 @@ proc parse*(s: string, loose: bool = false): RegexParams =
     except:
       break
 
-  return (keys, re("^" & pattern & "/?$"))
+  return (keys, re("^" & pattern & (if loose: "(?=$|/)" else: "/?$")))
