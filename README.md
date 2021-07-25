@@ -21,9 +21,9 @@
 > Long story short; it's a _router_.
 
 Writing this port to 
-- understand the inner workings,
-- get better at writing libraries,
-- have a shiny new router to work with.
+- understand the inner workings
+- get better at writing libraries
+- have a shiny new router to work with
 
 <sub><sup>_Work in progress._</sub></sup>
 
