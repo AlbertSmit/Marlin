@@ -11,6 +11,6 @@ var
   urlToBeParsed = "/books/horror/pizza"
   (pattern, keys) = urlToBeParsed.parse('/books/:genre/:title?')
 
-# pattern => /^\/books\/([^\/]+?)(?:\/([^\/]+?))?\/?$/i
+# pattern => /^/books/([^/]+?)(?:/([^/]+?))?/?$/i
 # keys => ['genre', 'title']
 ```

@@ -56,4 +56,4 @@ proc parse*(s: string, loose: bool = false): RegexParams =
     except:
       break
 
-  return (keys, re("^" & pattern & (if loose: "(?=$|/)" else: "/?$")))
+  return (keys, re("/^" & pattern & (if loose: "(?=$|/)" else: "/?$") & "/i"))
