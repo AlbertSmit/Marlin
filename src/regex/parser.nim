@@ -1,4 +1,4 @@
-## This module is a Nim port of Lukeed's RegexParams.
+## This module is a Nim port of Lukeed's `RegexParam`.
 ## The name is pretty implicit of what it does. ;-)
 
 import strutils, regex
