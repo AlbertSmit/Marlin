@@ -8,8 +8,8 @@ Nim port of [Lukeed](https://github.com/lukeed)'s [RegexParam](https://github.co
 
 ```nim
 var
-  string = "/books/horror/pizza"
-  (pattern, keys) = string.parse('/books/:genre/:title?')
+  urlToBeParsed = "/books/horror/pizza"
+  (pattern, keys) = urlToBeParsed.parse('/books/:genre/:title?')
 
 # pattern => /^\/books\/([^\/]+?)(?:\/([^\/]+?))?\/?$/i
 # keys => ['genre', 'title']
